@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.example.jot.app.MainScreen
+import com.example.jot.feature.authentication.ui.RegisterScreen
 import com.example.jot.ui.theme.JotTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -24,7 +25,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             JotTheme {
-                MainScreen()
+//                MainScreen()
+                RegisterScreen()
             }
         }
     }
