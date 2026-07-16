@@ -1,4 +1,4 @@
-package com.example.jot.pages
+package com.example.jot.feature.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

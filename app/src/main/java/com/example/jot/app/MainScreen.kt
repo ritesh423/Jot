@@ -1,11 +1,11 @@
-package com.example.jot
+package com.example.jot.app
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -16,9 +16,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.jot.pages.HomePage
-import com.example.jot.pages.TodoPage
+import com.example.jot.app.NavItem
+import com.example.jot.feature.home.HomePage
+import com.example.jot.feature.todos.TodoPage
 
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
@@ -40,7 +40,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
                         selected = selectedIndex == index,
                         onClick = { selectedIndex = index },
                         icon = {
-                            androidx.compose.material3.Icon(
+                            Icon(
                                 imageVector = item.icon,
                                 contentDescription = "Icon"
                             )

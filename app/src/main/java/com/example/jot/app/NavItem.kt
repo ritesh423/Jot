@@ -1,4 +1,4 @@
-package com.example.jot
+package com.example.jot.app
 
 import androidx.compose.ui.graphics.vector.ImageVector
 
