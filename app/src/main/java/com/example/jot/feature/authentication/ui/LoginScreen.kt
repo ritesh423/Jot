@@ -1,6 +1,7 @@
 package com.example.jot.feature.authentication.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -95,7 +96,7 @@ fun LoginScreen() {
                 contentColor = Color.White
             )
         ) {
-            Text(text = "Login")
+            Text(text = "Login" , modifier = Modifier.clickable(onClick = {}))
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(
