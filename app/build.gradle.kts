@@ -58,4 +58,22 @@ dependencies {
 
     //SplashScreen
     implementation("androidx.core:core-splashscreen:1.2.0")
+
+    //Fonts
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.11.3")
+
+    //DataStore
+    // Preferences DataStore (SharedPreferences like APIs)
+    implementation("androidx.datastore:datastore-preferences:1.2.1")
+
+    // Alternatively - without an Android dependency.
+    implementation("androidx.datastore:datastore-preferences-core:1.2.1")
+
+    //Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    //Navigation
+    implementation("androidx.navigation:navigation-compose:2.9.8")
+
 }
