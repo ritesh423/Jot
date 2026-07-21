@@ -1,10 +1,7 @@
 package com.example.jot.feature.authentication.ui
 
-import android.R
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,13 +11,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,13 +26,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.jot.app.ResultState
 import com.example.jot.app.viewmodel.AuthenticationViewModel
 import com.example.jot.ui.theme.ScreenBackground
 import com.example.jot.ui.theme.SplashBackground
@@ -43,81 +38,152 @@ import com.example.jot.ui.theme.smallHeadings
 
 @Composable
 fun RegisterScreen(
-    viewModel: AuthenticationViewModel
+    viewModel: AuthenticationViewModel,
+    onNavigateToHome: () -> Unit
 ) {
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(uiState) {
+        if (uiState is ResultState.Success) {
+            onNavigateToHome()
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = ScreenBackground)
+            .background(ScreenBackground)
             .padding(horizontal = 30.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
     ) {
+
         Spacer(modifier = Modifier.height(100.dp))
+
         Text(
             text = "Jot.",
             color = SplashBackground,
-            style = TextStyle(fontSize = 28.sp, fontFamily = lorafamily)
+            style = TextStyle(
+                fontSize = 28.sp,
+                fontFamily = lorafamily
+            )
         )
-        Spacer(Modifier.height(8.dp))
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         Text(
             text = "Create Account",
             color = Color.Black,
-            style = TextStyle(fontSize = 34.sp, fontFamily = lorafamily)
+            style = TextStyle(
+                fontSize = 34.sp,
+                fontFamily = lorafamily
+            )
         )
+
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "Free forever. Your notes stay yours.", color = smallHeadings)
+
+        Text(
+            text = "Free forever. Your notes stay yours.",
+            color = smallHeadings
+        )
+
         Spacer(modifier = Modifier.height(50.dp))
 
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            modifier = Modifier
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(20),
-            textStyle = TextStyle(fontFamily = lorafamily),
-            label = { Text("Email") },
-            placeholder = { Text("your email") }
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(20.dp),
+            label = {
+                Text("Email")
+            },
+            placeholder = {
+                Text("your@email.com")
+            },
+            textStyle = TextStyle(fontFamily = lorafamily)
         )
+
         Spacer(modifier = Modifier.height(10.dp))
 
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            modifier = Modifier
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(20),
-            textStyle = TextStyle(fontFamily = lorafamily),
-            label = { Text(text = "Password") },
-            placeholder = { Text(text = "your password") }
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(20.dp),
+            label = {
+                Text("Password")
+            },
+            placeholder = {
+                Text("Password")
+            },
+            textStyle = TextStyle(fontFamily = lorafamily)
         )
-        Spacer(modifier = Modifier.height(50.dp))
+
+        Spacer(modifier = Modifier.height(40.dp))
 
         Button(
-            shape = RoundedCornerShape(50),
             onClick = {
-                viewModel.register(email, password)
+                viewModel.register(
+                    email = email,
+                    password = password
+                )
             },
+            enabled = uiState !is ResultState.Loading,
             modifier = Modifier
                 .fillMaxWidth()
                 .size(height = 50.dp, width = 0.dp),
+            shape = RoundedCornerShape(50.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = SplashBackground,
                 contentColor = Color.White
             )
         ) {
-            Text(text = "Create Account")
+
+            if (uiState is ResultState.Loading) {
+
+                CircularProgressIndicator(
+                    modifier = Modifier.size(22.dp),
+                    strokeWidth = 2.dp,
+                    color = Color.White
+                )
+
+            } else {
+
+                Text("Create Account")
+
+            }
+
         }
+
         Spacer(modifier = Modifier.height(20.dp))
+
+        if (uiState is ResultState.Error) {
+
+            Text(
+                text = (uiState as ResultState.Error).message,
+                color = Color.Red
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+        }
+
         Row(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceAround
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "Already have an account")
-            Text(text = "Log in", color = SplashBackground)
+
+            Text("Already have an account?")
+
+            Text(
+                text = "Log in",
+                color = SplashBackground
+            )
+
         }
     }
 }
