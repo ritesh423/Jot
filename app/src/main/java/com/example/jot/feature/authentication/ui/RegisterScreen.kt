@@ -35,13 +35,16 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.jot.app.viewmodel.AuthenticationViewModel
 import com.example.jot.ui.theme.ScreenBackground
 import com.example.jot.ui.theme.SplashBackground
 import com.example.jot.ui.theme.lorafamily
 import com.example.jot.ui.theme.smallHeadings
 
 @Composable
-fun RegisterScreen() {
+fun RegisterScreen(
+    viewModel: AuthenticationViewModel
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     Column(
@@ -59,7 +62,11 @@ fun RegisterScreen() {
             style = TextStyle(fontSize = 28.sp, fontFamily = lorafamily)
         )
         Spacer(Modifier.height(8.dp))
-        Text(text = "Create Account", color = Color.Black, style = TextStyle(fontSize = 34.sp, fontFamily = lorafamily))
+        Text(
+            text = "Create Account",
+            color = Color.Black,
+            style = TextStyle(fontSize = 34.sp, fontFamily = lorafamily)
+        )
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = "Free forever. Your notes stay yours.", color = smallHeadings)
         Spacer(modifier = Modifier.height(50.dp))
@@ -90,7 +97,9 @@ fun RegisterScreen() {
 
         Button(
             shape = RoundedCornerShape(50),
-            onClick = {},
+            onClick = {
+                viewModel.register(email, password)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .size(height = 50.dp, width = 0.dp),
@@ -111,10 +120,4 @@ fun RegisterScreen() {
             Text(text = "Log in", color = SplashBackground)
         }
     }
-}
-
-@Preview()
-@Composable
-fun RegisterScreenPrev() {
-    RegisterScreen()
 }
