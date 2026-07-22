@@ -6,7 +6,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.jot.app.MainScreen
 import com.example.jot.app.viewmodel.AuthenticationViewModel
+import com.example.jot.feature.authentication.ui.LoginScreen
 import com.example.jot.feature.authentication.ui.RegisterScreen
+import com.example.jot.feature.splash.SplashScreen
 
 @Composable
 fun NavGraph(
@@ -16,8 +18,28 @@ fun NavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Register.route
+        startDestination = Screen.Splash.route
     ) {
+        composable(Screen.Splash.route) {
+
+            SplashScreen(
+                viewModel = authenticationViewModel,
+                onNavigateToRegister = {
+                    navController.navigate(Screen.Register.route) {
+                        popUpTo(Screen.Splash.route) {
+                            inclusive = true
+                        }
+                    }
+                },
+                onNavigateToHome = {
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Splash.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
+        }
 
         composable(Screen.Register.route) {
 
@@ -33,9 +55,15 @@ fun NavGraph(
 
                     }
 
+                },
+                onNavigateToLogin = {
+                    navController.navigate(Screen.Login.route)
                 }
             )
 
+        }
+        composable(Screen.Login.route) {
+            LoginScreen()
         }
 
         composable(Screen.Home.route) {

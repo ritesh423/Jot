@@ -3,7 +3,7 @@
 
     <style name="Theme.JotSplashScreen" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/splashbackground</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_jot</item>
         <item name="postSplashScreenTheme">@style/Theme.Jot</item>
     </style>
 

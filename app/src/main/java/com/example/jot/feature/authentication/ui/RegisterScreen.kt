@@ -1,6 +1,7 @@
 package com.example.jot.feature.authentication.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +31,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jot.app.ResultState
+import com.example.jot.app.navigation.Screen
 import com.example.jot.app.viewmodel.AuthenticationViewModel
 import com.example.jot.ui.theme.ScreenBackground
 import com.example.jot.ui.theme.SplashBackground
@@ -39,7 +41,8 @@ import com.example.jot.ui.theme.smallHeadings
 @Composable
 fun RegisterScreen(
     viewModel: AuthenticationViewModel,
-    onNavigateToHome: () -> Unit
+    onNavigateToHome: () -> Unit,
+    onNavigateToLogin: () -> Unit
 ) {
 
     var email by remember { mutableStateOf("") }
@@ -181,7 +184,10 @@ fun RegisterScreen(
 
             Text(
                 text = "Log in",
-                color = SplashBackground
+                color = SplashBackground,
+                modifier = Modifier.clickable {
+                    onNavigateToLogin()
+                }
             )
 
         }
